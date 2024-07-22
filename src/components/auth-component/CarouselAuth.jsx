@@ -21,7 +21,7 @@ export function CarouselAuth({
     if (!autoSlide) return;
     const slideInterval = setInterval(next, autoSlideInterval);
     return () => clearInterval(slideInterval);
-  }, []);
+  }, []);  // react-hooks/exhaustive-deps
 
   return (
     <div className="h-[70vh] lg:h-screen xl:h-[70vh] mx-5 flex overflow-hidden relative items-center">
