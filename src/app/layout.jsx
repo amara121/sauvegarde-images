@@ -1,13 +1,16 @@
-import { Analytics } from "@vercel/analytics/react"
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Inter } from "next/font/google";
+// import { ThemeProvider } from "@material-tailwind/react";
+
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "Sauvegarde Image",
-  description: "Une application pour sauvegarder les images et partager en ligne",
+  description:
+    "Une application pour sauvegarder les images et partager en ligne",
 };
 
 export default function RootLayout({ children }) {
