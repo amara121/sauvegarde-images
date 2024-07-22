@@ -86,7 +86,7 @@ export function CarouselAuth({
         </div>
       </div>
 
-      <div className="h-[70vh] lg:h-[calc(100vh_-_40px)] xl:h-[70vh] absolute inset-0 flex items-end justify-end">
+      <div className=" z-10 h-[70vh] lg:h-[calc(100vh_-_40px)] xl:h-[70vh] absolute inset-0 flex items-end justify-end">
         <div className="mb-6 lg:mb-0 xl:mb-10 lg:mr-4">
           <Button
             onClick={prev}
