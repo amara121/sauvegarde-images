@@ -21,6 +21,6 @@ export const login = safeAction(LoginFormSchema, async ({email, password}) => {
 
   if (error) return {message: error.message}
 
-  revalidatePath('/dashboard', 'layout')
-  redirect('/dashboard')
+  revalidatePath('/', 'layout')
+  redirect('/')
 })
