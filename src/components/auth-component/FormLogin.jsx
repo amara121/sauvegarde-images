@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
-import { login } from "@/app/(dashboard)/(auth)/login/actions";
+import { login } from "@/app/(auth)/login/actions";
 // import { toast } from "./ui/use-toast";
 // import { ToastAction } from "./ui/toast";
 import { LoginFormSchema } from "@/schemas";
