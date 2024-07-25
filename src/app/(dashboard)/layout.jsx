@@ -10,7 +10,7 @@ const layout = async ({ children }) => {
       </div>
 
       {/* menu & content */}
-      <div className="grid grid-cols-[150px_minmax(320px,_1fr)] max-h-[calc(100vh_-_80px)] overflow-y-scroll">
+      <div className="grid grid-cols-[80px_minmax(320px,_1fr)] lg:grid-cols-[150px_minmax(320px,_1fr)] max-h-[calc(100vh_-_80px)] overflow-y-scroll">
         {/* menu */}
         <div className="relative">
           <Menu />
