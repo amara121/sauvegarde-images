@@ -1,5 +1,6 @@
 import Header from "@/components/header-component/Header";
-import Menu from "@/components/menu-component/Menu";
+import MenuDesktop from "@/components/menu-component/MenuDesktop";
+import MenuMobile from "@/components/menu-component/MenuMobile";
 
 const layout = async ({ children }) => {
   return (
@@ -10,14 +11,18 @@ const layout = async ({ children }) => {
       </div>
 
       {/* menu & content */}
-      <div className="grid grid-cols-[80px_minmax(320px,_1fr)] lg:grid-cols-[150px_minmax(320px,_1fr)] max-h-[calc(100vh_-_80px)] overflow-y-scroll">
+      <div className="relative grid md:grid-cols-[150px_minmax(320px,_1fr)] max-h-[calc(100vh_-_80px)] overflow-y-scroll">
         {/* menu */}
-        <div className="relative">
-          <Menu />
+        <div className="relative hidden md:flex">
+          <MenuDesktop />
         </div>
 
         {/* content */}
         {children}
+
+        <div className="md:hidden fixed bottom-0 left-0 right-0">
+          <MenuMobile />
+        </div>
       </div>
     </div>
   );
