@@ -17,7 +17,7 @@ const Header = () => {
           <div className="hidden grow ml-3 max-w-xs md:flex items-center">
             <Input placeholder="Rechercher un amis..." className="w-full -mr-8 rounded-full" />
             <svg
-              className="w-6 h-6 text-gray-800 dark:text-white"
+              className="w-6 h-6 text-cyan-600"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               width="24"
