@@ -11,7 +11,7 @@ const layout = async ({ children }) => {
       </div>
 
       {/* menu & content */}
-      <div className="relative grid md:grid-cols-[150px_minmax(320px,_1fr)] max-h-[calc(100vh_-_80px)] overflow-y-scroll">
+      <div className="relative grid grid-cols-1 md:grid-cols-[150px_minmax(320px,_1fr)] max-h-[calc(100vh_-_80px)]">
         {/* menu */}
         <div className="relative hidden md:flex">
           <MenuDesktop />

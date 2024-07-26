@@ -1,8 +1,8 @@
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Inter } from "next/font/google";
-// import { ThemeProvider } from "@material-tailwind/react";
 
+import 'simplebar-react/dist/simplebar.min.css';
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 
