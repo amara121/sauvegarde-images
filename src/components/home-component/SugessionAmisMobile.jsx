@@ -1,9 +1,10 @@
-"use client"
+"use client";
 
 import React from "react";
 import { Button } from "../ui/button";
 import Image from "next/image";
 import SimpleBar from "simplebar-react";
+import Link from "next/link";
 
 const SugessionAmisMobile = () => {
   return (
@@ -11,7 +12,11 @@ const SugessionAmisMobile = () => {
       <div className="flex space-x-2 h-full">
         {/* un composant de sugession d'amis */}
         {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((_, i) => (
-          <div key={i} className="flex flex-col items-center gap-1 w-[120px] bg-gray-100 p-2 rounded-md">
+          <Link
+            href={"/amara121"}
+            key={i}
+            className="flex flex-col items-center gap-1 w-[120px] bg-gray-100 p-2 rounded-md"
+          >
             <div
               className={`relative min-w-[70px] w-[70px] h-[70px] transition-transform duration-200 ease-in flex flex-shrink-0 justify-center border-2 border-cyan-600 rounded-full p-0.5`}
             >
@@ -47,7 +52,7 @@ const SugessionAmisMobile = () => {
             <div className="flex">
               <span className="font-bold text-nowrap">Amara Fofana</span>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </SimpleBar>

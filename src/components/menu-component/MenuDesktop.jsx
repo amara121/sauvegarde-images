@@ -1,30 +1,35 @@
 import React from "react";
 import { Button } from "../ui/button";
+import Link from "next/link";
 
 const MenuDesktop = () => {
   return (
     <div className="min-h-[calc(100vh_-_80px)] w-[150px] py-5 px-2 fixed border-r">
       <div className="w-full flex flex-col gap-1">
-        <Button className="bg-transparent hover:bg-transparent group h-auto flex-col text-cyan-600">
-          <svg
-            className="w-12 h-12 group-hover:text-cyan-950"
-            fill="currentColor"
-            viewBox="0 0 48 48"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fillRule="evenodd"
-              clipRule="evenodd"
-              d="M24 40.5a16.5 16.5 0 1 0 0-33 16.5 16.5 0 0 0 0 33Zm4.43-14.54c-.12.6-.49 1.12-1.01 1.44l-8.88 5.37a.65.65 0 0 1-.98-.69l2.01-10.18c.12-.6.49-1.12 1.01-1.44l8.88-5.37a.65.65 0 0 1 .98.69l-2.01 10.18Z"
-            ></path>
-            <path
-              fillRule="evenodd"
-              clipRule="evenodd"
-              d="m21.92 26.89 3.4-2.05.76-3.9-3.4 2.06-.76 3.89Z"
-            ></path>
-          </svg>
-          <span className="group-hover:text-cyan-950 font-bold">Explorer</span>
-        </Button>
+        <Link href={"/"}>
+          <Button className="w-full bg-transparent hover:bg-transparent group h-auto flex-col text-cyan-600">
+            <svg
+              className="w-12 h-12 group-hover:text-cyan-950"
+              fill="currentColor"
+              viewBox="0 0 48 48"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M24 40.5a16.5 16.5 0 1 0 0-33 16.5 16.5 0 0 0 0 33Zm4.43-14.54c-.12.6-.49 1.12-1.01 1.44l-8.88 5.37a.65.65 0 0 1-.98-.69l2.01-10.18c.12-.6.49-1.12 1.01-1.44l8.88-5.37a.65.65 0 0 1 .98.69l-2.01 10.18Z"
+              ></path>
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="m21.92 26.89 3.4-2.05.76-3.9-3.4 2.06-.76 3.89Z"
+              ></path>
+            </svg>
+            <span className="group-hover:text-cyan-950 font-bold">
+              Explorer
+            </span>
+          </Button>
+        </Link>
         <Button className="bg-transparent hover:bg-transparent group h-auto flex-col text-cyan-600">
           <svg
             className="w-9 h-9 group-hover:text-cyan-950"
@@ -44,7 +49,9 @@ const MenuDesktop = () => {
             />
           </svg>
 
-          <span className="group-hover:text-cyan-950 font-bold">Mes Photos</span>
+          <span className="group-hover:text-cyan-950 font-bold">
+            Mes Photos
+          </span>
         </Button>
         <Button className="bg-transparent hover:bg-transparent group h-auto flex-col text-cyan-600">
           <svg

@@ -2,24 +2,53 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 const ExplorerImages = () => {
+  const [width, setWidth] = useState(0);
+  const divRef = useRef(null);
+
+  useEffect(() => {
+    const resizeObserver = new ResizeObserver((entries) => {
+      if (entries[0]) {
+        setWidth(Math.floor(entries[0].contentRect.width));
+      }
+    });
+
+    if (divRef.current) {
+      resizeObserver.observe(divRef.current);
+    }
+
+    return () => {
+      if (divRef.current) {
+        resizeObserver.unobserve(divRef.current);
+      }
+    };
+  }, []);
+
   return (
-    <div className="w-full flex justify-center flex-wrap gap-3">
+    <div ref={divRef} className={`w-full grid ${
+      width > 736 ? "grid-cols-3" : "grid-cols-1 sm:grid-cols-2"
+    } gap-3`}>
       {/* les photos */}
       {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((_, i) => (
-        <div key={i} className="relative w-[310px] h-[551px] flex flex-col rounded-md overflow-hidden group">
+        <div
+          key={i}
+          className="relative w-auto h-[300px] flex flex-col rounded-md overflow-hidden group"
+        >
           <Image
             priority={true}
-            width={310}
-            height={551}
+            width={200}
+            height={300}
             src={"/images/image-carousel-1.jpg"}
             alt="default avatar"
             className={`absolute inset-0 w-full object-cover h-full`}
           />
 
-          <Link href={"#"} className="absolute bottom-0 left-0 w-full h-1/4 bg-black bg-opacity-50 backdrop-blur-sm flex items-center px-2 gap-2">
+          <Link
+            href={"#"}
+            className="absolute bottom-0 left-0 w-full h-1/4 bg-black bg-opacity-50 backdrop-blur-sm flex items-center px-2 gap-2"
+          >
             <div className="min-w-[45px] w-[45px] h-[45px] border-2 border-cyan-600 rounded-full p-0.5">
               <Image
                 priority={true}

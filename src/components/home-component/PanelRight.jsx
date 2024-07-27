@@ -5,6 +5,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Button } from "../ui/button";
 import SimpleBar from "simplebar-react";
 import ContentImageSugessionAmisDesktop from "./ContentImageSugessionAmisDesktop";
+import Link from "next/link";
 
 const PanelRight = () => {
   const [width, setWidth] = useState(0);
@@ -48,7 +49,7 @@ const PanelRight = () => {
                   } flex items-end`}
                 >
                   {/* photo & nom d'utilisateur */}
-                  <div
+                  <Link href={"/amara121"}
                     className={`flex ${
                       width < 270 ? "flex-col" : "flex-row"
                     } items-center gap-2`}
@@ -107,7 +108,7 @@ const PanelRight = () => {
                         @amara121
                       </span>
                     </div>
-                  </div>
+                  </Link>
 
                   {/* bouton pour follower */}
                   <Button
