@@ -5,11 +5,13 @@ import React, { useEffect, useRef, useState } from "react";
 import SimpleBar from "simplebar-react";
 import { Button } from "../ui/button";
 
-const PanelLeftUtilisateur = () => {
+const PanelLeftUtilisateur = ({ utilisateur }) => {
   const [width, setWidth] = useState(0);
   const divRef = useRef(null);
 
   useEffect(() => {
+    console.log(utilisateur);
+    
     const resizeObserver = new ResizeObserver((entries) => {
       if (entries[0]) {
         setWidth(Math.floor(entries[0].contentRect.width));
@@ -37,18 +39,36 @@ const PanelLeftUtilisateur = () => {
         >
           {/* <p>Largeur de la div: {width}px</p> */}
           <div className="relative rounded-full">
-            <Image
-              priority={true}
-              src={"/images/default-avatar.png"}
-              alt="default avatar"
-              width={296}
-              height={296}
-              className={` ${
-                width < 290
-                  ? "min-w-[143px] w-[143px] h-[143px]"
-                  : "min-w-[296px] w-[296px] h-[296px]"
-              } object-cover rounded-full border-2 border-white`}
-            />
+            {/* photo de profil */}
+            {utilisateur?.photo_url ? (
+              <Image
+                priority={true}
+                src={utilisateur?.photo_url}
+                alt="default avatar"
+                width={296}
+                height={296}
+                className={` ${
+                  width < 290
+                    ? "min-w-[143px] w-[143px] h-[143px]"
+                    : "min-w-[296px] w-[296px] h-[296px]"
+                } object-cover rounded-full border-2 border-white`}
+              />
+            ) : (
+              <Image
+                priority={true}
+                src={"/images/default-avatar.png"}
+                alt="default avatar"
+                width={296}
+                height={296}
+                className={` ${
+                  width < 290
+                    ? "min-w-[143px] w-[143px] h-[143px]"
+                    : "min-w-[296px] w-[296px] h-[296px]"
+                } object-cover rounded-full border-2 border-white`}
+              />
+            )}
+
+            {/* statut en ligne */}
             <span
               className={`absolute  ${
                 width < 290
@@ -65,22 +85,19 @@ const PanelLeftUtilisateur = () => {
             ></span>
           </div>
 
-          <div
-            className={`w-full flex flex-col items-center`}
-          >
+          <div className={`w-full flex flex-col items-center`}>
             <div
               className={`flex ${
-                width < 290
-                  ? "gap-2 text-lg"
-                  : "gap-3 text-2xl"
+                width < 290 ? "gap-2 text-lg" : "gap-3 text-2xl"
               } items-center font-extrabold`}
             >
-              <span>Amara</span>
-              <span>Fofana</span>
+              <span>{utilisateur?.prenom}</span>
+              <span>{utilisateur?.nom}</span>
             </div>
-            <span className="font-bold">@amara121</span>
+            <span className="font-bold">@{utilisateur?.pseudo}</span>
           </div>
 
+          {/* content(publications, followers, suivi(e)s) */}
           <div
             className={`w-full grid ${
               width < 290 ? "grid-cols-1" : "grid-cols-3"
@@ -99,7 +116,8 @@ const PanelLeftUtilisateur = () => {
               <span className="text-sm text-gray-500">suivi(e)s</span>
             </div>
           </div>
-
+          
+          {/* biographie */}
           <div className={`${width < 290 ? "hidden" : "flex"}`}>
             <p className="font-semibold text-gray-600">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint in,
@@ -108,7 +126,8 @@ const PanelLeftUtilisateur = () => {
               accusantium?
             </p>
           </div>
-
+          
+          {/* bouton pour editer profil */}
           <div className="w-full flex">
             <Button className="w-full bg-cyan-500">Edit Profil</Button>
           </div>

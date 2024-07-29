@@ -15,11 +15,11 @@ const ContentRechercheResultat = () => {
             {/* photo & nom d'utilisateur */}
             <Link
               href={"/amara121"}
-              className={`flex flex-row items-center gap-2`}
+              className={`grow flex flex-row items-center gap-2`}
             >
               {/* photo */}
               <div
-                className={`relative min-w-[50px] w-[50px] h-[50px] transition-transform duration-200 ease-in flex flex-1 justify-center border-2 border-cyan-600 rounded-full p-0.5`}
+                className={`relative min-w-[50px] max-w-[50px] w-[50px] h-[50px] transition-transform duration-200 ease-in flex flex-1 justify-center border-2 border-cyan-600 rounded-full p-0.5`}
               >
                 <Image
                   priority={true}
@@ -27,7 +27,7 @@ const ContentRechercheResultat = () => {
                   alt="default avatar"
                   width={50}
                   height={50}
-                  className={`min-w-[42px] w-[42px] h-[42px] object-cover  rounded-full transition-transform duration-200 ease-in border-2 border-white`}
+                  className={`min-w-[42px] max-w-[50px] w-[42px] h-[42px] object-cover  rounded-full transition-transform duration-200 ease-in border-2 border-white`}
                 />
               </div>
               {/* nom d'utilisateur */}
