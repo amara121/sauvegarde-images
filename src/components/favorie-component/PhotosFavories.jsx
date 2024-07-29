@@ -2,38 +2,14 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
+import SimpleBar from "simplebar-react";
 
-const UtilisateurPanelFavorie = () => {
-  const [width, setWidth] = useState(0);
-  const divRef = useRef(null);
-
-  useEffect(() => {
-    const resizeObserver = new ResizeObserver((entries) => {
-      if (entries[0]) {
-        setWidth(Math.floor(entries[0].contentRect.width));
-      }
-    });
-
-    if (divRef.current) {
-      resizeObserver.observe(divRef.current);
-    }
-
-    return () => {
-      if (divRef.current) {
-        resizeObserver.unobserve(divRef.current);
-      }
-    };
-  }, []);
-
+const PhotosFavories = () => {
   return (
-    <div ref={divRef} className="w-full">
-      <div
-        className={`w-full grid ${
-          width > 716 ? "grid-cols-3" : "grid-cols-1 sm:grid-cols-2"
-        } gap-3`}
-      >
-        {[1, 2, 3, 4, 5].map((_, i) => (
+    <SimpleBar className="w-full h-[calc(100vh_-_135px)] flex">
+      <div className="w-full h-full text-gray-500 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 pb-24 md:pb-3">
+        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map((_, i) => (
           <div
             key={i}
             className="h-[300px] relative rounded-md overflow-hidden"
@@ -50,10 +26,7 @@ const UtilisateurPanelFavorie = () => {
             {/* footer de l'image */}
             <div className="absolute bottom-0 left-0 w-full h-16 bg-black bg-opacity-50 backdrop-blur-sm flex items-center px-2 gap-4">
               {/* profil de l'utilisateur dont l'image a été aimé */}
-              <Link
-                href={"#"}
-                className=" w-full flex items-center gap-2"
-              >
+              <Link href={"#"} className=" w-full flex items-center gap-2">
                 <div className="min-w-[45px] w-[45px] h-[45px] border-2 border-cyan-600 rounded-full p-0.5">
                   <Image
                     priority={true}
@@ -109,8 +82,8 @@ const UtilisateurPanelFavorie = () => {
           </div>
         ))}
       </div>
-    </div>
+    </SimpleBar>
   );
 };
 
-export default UtilisateurPanelFavorie;
+export default PhotosFavories;

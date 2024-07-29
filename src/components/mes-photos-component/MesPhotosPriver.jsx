@@ -1,38 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
+import SimpleBar from "simplebar-react";
 
-const UtilisateurPanelPriverImage = () => {
-  const [width, setWidth] = useState(0);
-  const divRef = useRef(null);
-
-  useEffect(() => {
-    const resizeObserver = new ResizeObserver((entries) => {
-      if (entries[0]) {
-        setWidth(Math.floor(entries[0].contentRect.width));
-      }
-    });
-
-    if (divRef.current) {
-      resizeObserver.observe(divRef.current);
-    }
-
-    return () => {
-      if (divRef.current) {
-        resizeObserver.unobserve(divRef.current);
-      }
-    };
-  }, []);
-
+const MesPhotosPriver = () => {
   return (
-    <div ref={divRef} className="w-full">
-      <div
-        className={`w-full grid ${
-          width > 716 ? "grid-cols-3" : "grid-cols-1 sm:grid-cols-2"
-        } gap-3`}
-      >
-        {[1, 2, 3, 4, 5].map((_, i) => (
+    <SimpleBar className="w-full h-[calc(100vh_-_180px)] flex">
+      <div className="w-full h-full text-gray-500 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 pb-24 md:pb-3">
+        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map((_, i) => (
           <div
             key={i}
             className="h-[300px] relative rounded-md overflow-hidden"
@@ -67,8 +43,8 @@ const UtilisateurPanelPriverImage = () => {
           </div>
         ))}
       </div>
-    </div>
+    </SimpleBar>
   );
 };
 
-export default UtilisateurPanelPriverImage;
+export default MesPhotosPriver;

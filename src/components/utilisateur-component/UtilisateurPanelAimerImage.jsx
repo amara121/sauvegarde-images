@@ -40,7 +40,7 @@ const UtilisateurPanelAimerImage = () => {
           >
             <Image
               priority={true}
-              src={"/images/image-carousel-2.jpg"}
+              src={"/images/image-carousel-4.jpg"}
               alt="default avatar"
               width={200}
               height={300}

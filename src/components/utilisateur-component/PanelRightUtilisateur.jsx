@@ -11,38 +11,10 @@ import Image from "next/image";
 import { Button } from "../ui/button";
 
 const PanelRightUtilisateur = () => {
-  // const [isSticky, setIsSticky] = useState(false);
-  // const headerRef = useRef(null);
-
-  // useEffect(() => {
-  //   const scrollContainer = document.getElementById("panel-right-utilisateur");
-
-  //   const handleScroll = () => {
-  //     if (scrollContainer) {
-
-  //       setIsSticky(scrollContainer.scrollTop > scrollTrigger);
-  //       console.log(isSticky);
-  //     }
-  //   };
-
-  //   console.log(scrollContainer.scrollTop);
-
-  //   if (scrollContainer) {
-  //     scrollContainer.addEventListener("scroll", handleScroll);
-  //   }
-
-  //   return () => {
-  //     if (scrollContainer) {
-  //       scrollContainer.removeEventListener("scroll", handleScroll);
-  //     }
-  //   };
-
-  // }, [scrollContainerId]);
 
   return (
     <SimpleBar className="w-full h-[calc(100vh_-_80px)] flex">
       <div
-        // ref={headerRef}
         // id="panel-right-utilisateur"
         className="w-full h-full flex flex-col text-gray-500 p-2 gap-6"
       >
