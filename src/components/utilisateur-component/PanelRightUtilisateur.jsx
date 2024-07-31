@@ -9,8 +9,11 @@ import UtilisateurPanelAimerImage from "./UtilisateurPanelAimerImage";
 import UtilisateurPanelFavorie from "./UtilisateurPanelFavorie";
 import Image from "next/image";
 import { Button } from "../ui/button";
+import { useUser } from "@/lib/stores/user";
+import Link from "next/link";
 
-const PanelRightUtilisateur = () => {
+const PanelRightUtilisateur = ({ utilisateur }) => {
+  const { user } = useUser();
 
   return (
     <SimpleBar className="w-full h-[calc(100vh_-_80px)] flex">
@@ -21,20 +24,31 @@ const PanelRightUtilisateur = () => {
         <div className="flex lg:hidden flex-col gap-2">
           <div className="flex gap-2">
             <div className="relative w-[90px] h-[90px] rounded-full">
-              <Image
-                priority={true}
-                src={"/images/default-avatar.png"}
-                alt="default avatar"
-                width={90}
-                height={90}
-                className={`min-w-[90px] w-[90px] h-[90px] object-cover rounded-full border-2 border-white`}
-              />
-              <span
+              {utilisateur?.photo_url ? (
+                <Image
+                  priority={true}
+                  src={utilisateur?.photo_url}
+                  alt="default avatar"
+                  width={90}
+                  height={90}
+                  className={`min-w-[90px] w-[90px] h-[90px] object-cover rounded-full border-2 border-white`}
+                />
+              ) : (
+                <Image
+                  priority={true}
+                  src={"/images/default-avatar.png"}
+                  alt="default avatar"
+                  width={90}
+                  height={90}
+                  className={`min-w-[90px] w-[90px] h-[90px] object-cover rounded-full border-2 border-white`}
+                />
+              )}
+              {/* <span
                 className={`absolute bottom-[14%] right-[6%] w-6 h-6 bg-green-500 border-2 border-white rounded-full animate-ping`}
               ></span>
               <span
                 className={`absolute bottom-[15%] right-[7%] w-5 h-5 bg-green-500 border-2 border-white rounded-full flex items-center justify-center`}
-              ></span>
+              ></span> */}
             </div>
 
             <div className="flex flex-col">
@@ -42,10 +56,10 @@ const PanelRightUtilisateur = () => {
                 <div
                   className={`flex gap-2 text-lg items-center font-extrabold`}
                 >
-                  <span>Amara</span>
-                  <span>Fofana</span>
+                  <span>{utilisateur?.prenom}</span>
+                  <span>{utilisateur?.nom}</span>
                 </div>
-                <span className="font-bold text-xs">@amara121</span>
+                <span className="font-bold text-xs">@{utilisateur?.pseudo}</span>
               </div>
 
               <div className={`w-full grid grid-cols-3`}>
@@ -66,16 +80,21 @@ const PanelRightUtilisateur = () => {
           </div>
 
           <div className={`flex`}>
-            <p className="font-semibold text-gray-600">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint in,
-              sapiente culpa nam nihil velit sit delectus aut dicta tempora id
-              ex architecto facere aspernatur, optio vel, quas excepturi
-              accusantium?
-            </p>
+            <p className="font-semibold text-gray-600">{utilisateur?.bio}</p>
           </div>
 
           <div className="w-full max-w-sm flex">
-            <Button className="w-full bg-cyan-500">Edit Profil</Button>
+          {user?.pseudo === utilisateur?.pseudo ? (
+              <Link href={"/parametre"} className="w-full">
+                <Button className="w-full bg-cyan-500 hover:bg-cyan-800">
+                  Edit Profil
+                </Button>
+              </Link>
+            ) : (
+              <Button className="w-full bg-cyan-500 hover:bg-cyan-800">
+                Suivre
+              </Button>
+            )}
           </div>
         </div>
         <Tabs defaultValue="image-public" className={`relative`}>

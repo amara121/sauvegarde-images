@@ -16,9 +16,6 @@ const Utilisateur = async ({ params }) => {
     .select("id, nom, prenom, pseudo, photo_url")
     .eq("pseudo", params?.utilisateur);
 
-  console.log(params?.utilisateur);
-  console.log(utilisateur);
-
   if (!utilisateur[0]) {
     return (
       <div className="flex justify-center min-h-[calc(100vh_-_80px)] bg-slate-50">
@@ -58,7 +55,7 @@ const Utilisateur = async ({ params }) => {
           </ResizablePanel>
           <ResizableHandle withHandle className="hidden lg:flex" />
           <ResizablePanel defaultSize={65} className="">
-            <PanelRightUtilisateur />
+            <PanelRightUtilisateur utilisateur={utilisateur[0]} />
           </ResizablePanel>
         </ResizablePanelGroup>
       </div>

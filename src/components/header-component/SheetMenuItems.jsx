@@ -40,28 +40,10 @@ const SheetMenuItems = () => {
             <span>Mon Profil</span>
           </Link>
         </Button>
-        {/* <Button className="bg-transparent justify-start hover:bg-cyan-400 text-gray-700 space-x-2">
-                  <svg
-                    className="w-6 h-6"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="m3 16 5-7 6 6.5m6.5 2.5L16 13l-4.286 6M14 10h.01M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z"
-                    />
-                  </svg>
-
-                  <span>Mes photos</span>
-                </Button> */}
-        <Button className="bg-transparent justify-start hover:bg-cyan-400 text-gray-700 space-x-2">
+        <Button
+          onClick={() => window.document.getElementById("close-sheet")?.click()}
+          className="bg-transparent justify-start hover:bg-cyan-400 text-gray-700 space-x-2"
+        >
           <svg
             className="w-6 h-6"
             aria-hidden="true"
@@ -80,7 +62,10 @@ const SheetMenuItems = () => {
 
           <span>Mes amis</span>
         </Button>
-        <Button className="bg-transparent justify-start hover:bg-cyan-400 text-gray-700 space-x-2">
+        <Button
+          onClick={() => window.document.getElementById("close-sheet")?.click()}
+          className="bg-transparent justify-start hover:bg-cyan-400 text-gray-700 space-x-2"
+        >
           <svg
             className="w-6 h-6"
             aria-hidden="true"
@@ -101,6 +86,30 @@ const SheetMenuItems = () => {
 
           <span>Notifications</span>
         </Button>
+        <Link href={"/parametre"} className="w-full">
+          <Button
+            onClick={() =>
+              window.document.getElementById("close-sheet")?.click()
+            }
+            className="w-full bg-transparent justify-start hover:bg-cyan-400 text-gray-700 space-x-2"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M4.5 12a7.5 7.5 0 0 0 15 0m-15 0a7.5 7.5 0 1 1 15 0m-15 0H3m16.5 0H21m-1.5 0H12m-8.457 3.077 1.41-.513m14.095-5.13 1.41-.513M5.106 17.785l1.15-.964m11.49-9.642 1.149-.964M7.501 19.795l.75-1.3m7.5-12.99.75-1.3m-6.063 16.658.26-1.477m2.605-14.772.26-1.477m0 17.726-.26-1.477M10.698 4.614l-.26-1.477M16.5 19.794l-.75-1.299M7.5 4.205 12 12m6.894 5.785-1.149-.964M6.256 7.178l-1.15-.964m15.352 8.864-1.41-.513M4.954 9.435l-1.41-.514M12.002 12l-3.75 6.495"
+              />
+            </svg>
+            <span>Paramètre</span>
+          </Button>
+        </Link>
         <form action={logout} className="w-full">
           <Button className="w-full bg-transparent justify-start hover:bg-cyan-400 text-gray-700 space-x-2">
             <svg

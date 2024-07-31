@@ -5,6 +5,7 @@ import { Inter } from "next/font/google";
 import 'simplebar-react/dist/simplebar.min.css';
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
+import { Toaster as Sonner } from "@/components/ui/sonner"
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,6 +21,7 @@ export default function RootLayout({ children }) {
       <body className={inter.className}>
         {children}
         <Toaster />
+        <Sonner />
         <Analytics />
         <SpeedInsights />
       </body>

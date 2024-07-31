@@ -1,5 +1,7 @@
 "use client";
 
+import debounce from "lodash/debounce";
+import throttle from "lodash/throttle";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -16,7 +18,7 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { signup } from "@/app/(auth)/signup/actions";
 import { createClient } from "@/utils/supabase/client";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { SignUpFormSchema } from "@/schemas";
 import { useAction } from "next-safe-action/hooks";
@@ -24,9 +26,10 @@ import { Loader2 } from "lucide-react";
 import { useToast } from "../ui/use-toast";
 
 export function FormSignup() {
+  const supabase = createClient();
   const [showPassword, setShowPassword] = useState(false);
-  const { toast } = useToast()
-
+  const [errorPseudo, setErrorPseudo] = useState(false);
+  const { toast } = useToast();
 
   const form = useForm({
     resolver: zodResolver(SignUpFormSchema),
@@ -84,6 +87,37 @@ export function FormSignup() {
     },
   });
 
+  // pour vèrifier si le pseudo est deja pris
+  const checkUsernameExists = useCallback(
+    throttle(
+      debounce(async (pseudo) => {
+        const { data, error } = await supabase
+          .from("users")
+          .select("pseudo")
+          .eq("pseudo", pseudo);
+
+        if (data.length > 0) {
+          form.setError("pseudo", {
+            type: "manual",
+            message: "Le pseudo est déjà pris.",
+          });
+          setErrorPseudo(true)
+        } else {
+          setErrorPseudo(false)
+          form.clearErrors("pseudo");
+        }
+      }, 300),
+      1000
+    ),
+    []
+  );
+
+  useEffect(() => {
+    return () => {
+      checkUsernameExists.cancel();
+    };
+  }, [checkUsernameExists]);
+
   function onSubmit(values) {
     execute(values);
     console.log(values);
@@ -103,8 +137,9 @@ export function FormSignup() {
               <FormItem>
                 <FormLabel className="font-bold">Nom</FormLabel>
                 <FormControl>
-                  <Input placeholder="nom" {...field} />
+                  <Input placeholder="Ex: Fofana" {...field} />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
@@ -116,8 +151,9 @@ export function FormSignup() {
               <FormItem>
                 <FormLabel className="font-bold">Prénom</FormLabel>
                 <FormControl>
-                  <Input placeholder="prénom" {...field} />
+                  <Input placeholder="Ex: Amara" {...field} />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
@@ -129,8 +165,15 @@ export function FormSignup() {
             <FormItem>
               <FormLabel className="font-bold">Pseudo</FormLabel>
               <FormControl>
-                <Input placeholder="pseudo" {...field} />
+                <Input
+                  {...form.register('pseudo', {
+                    onChange: (e) => checkUsernameExists(e.target.value),
+                  })}
+                  placeholder="Ex: amarafofana121"
+                  {...field}
+                />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -141,8 +184,9 @@ export function FormSignup() {
             <FormItem>
               <FormLabel className="font-bold">Email</FormLabel>
               <FormControl>
-                <Input placeholder="email" {...field} />
+                <Input placeholder="Ex: amarafofana121@gmail.com" {...field} />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -200,7 +244,7 @@ export function FormSignup() {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full bg-blue-500 hover:bg-blue-800">
+        <Button type="submit" className="w-full bg-blue-500 hover:bg-blue-800" disabled={errorPseudo}>
           {status === "executing" && (
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
           )}

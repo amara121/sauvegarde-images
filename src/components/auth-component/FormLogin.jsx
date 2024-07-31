@@ -96,8 +96,9 @@ export function FormLogin() {
             <FormItem>
               <FormLabel className="font-bold">Email</FormLabel>
               <FormControl>
-                <Input placeholder="email" {...field} />
+                <Input placeholder="Ex: amarafofana121@gmail.com" {...field} />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />

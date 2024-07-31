@@ -4,14 +4,20 @@ import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import SimpleBar from "simplebar-react";
 import { Button } from "../ui/button";
+import { useUser } from "@/lib/stores/user";
+import { createClient } from "@/utils/supabase/client";
+import { getFollowers, getFollowing } from "@/lib/utils";
+import Link from "next/link";
 
 const PanelLeftUtilisateur = ({ utilisateur }) => {
+  const [followers, setFollowers] = useState([]);
+  const [following, setFollowing] = useState([]);
+  const { user } = useUser();
   const [width, setWidth] = useState(0);
   const divRef = useRef(null);
 
+  // useEffect pour la largeur du composant
   useEffect(() => {
-    console.log(utilisateur);
-    
     const resizeObserver = new ResizeObserver((entries) => {
       if (entries[0]) {
         setWidth(Math.floor(entries[0].contentRect.width));
@@ -28,6 +34,21 @@ const PanelLeftUtilisateur = ({ utilisateur }) => {
       }
     };
   }, []);
+
+  // la fonction pour get les followers
+  useEffect(() => {
+    async function fetchRelations() {
+      const followersData = await getFollowers(utilisateur?.id);
+      const followingData = await getFollowing(utilisateur?.id);
+      setFollowers(followersData);
+      setFollowing(followingData);
+    }
+
+    fetchRelations();
+
+    console.log("followers: ", followers);
+    console.log("following: ", following);
+  }, [utilisateur]);
 
   return (
     <div ref={divRef} className="w-full flex">
@@ -69,7 +90,7 @@ const PanelLeftUtilisateur = ({ utilisateur }) => {
             )}
 
             {/* statut en ligne */}
-            <span
+            {/* <span
               className={`absolute  ${
                 width < 290
                   ? "bottom-[15%] right-[7%]"
@@ -82,17 +103,19 @@ const PanelLeftUtilisateur = ({ utilisateur }) => {
                   ? "bottom-[16%] right-[8%]"
                   : "bottom-[19%] right-[11%]"
               }  w-5 h-5 bg-green-500 border-2 border-white rounded-full flex items-center justify-center`}
-            ></span>
+            ></span> */}
           </div>
 
           <div className={`w-full flex flex-col items-center`}>
             <div
               className={`flex ${
-                width < 290 ? "gap-2 text-lg" : "gap-3 text-2xl"
+                width < 290 ? "text-lg" : "gap-3 text-2xl"
               } items-center font-extrabold`}
             >
-              <span>{utilisateur?.prenom}</span>
-              <span>{utilisateur?.nom}</span>
+              <span className="text-center">
+                {utilisateur?.prenom} {utilisateur?.nom}
+              </span>
+              {/* <span></span> */}
             </div>
             <span className="font-bold">@{utilisateur?.pseudo}</span>
           </div>
@@ -108,28 +131,35 @@ const PanelLeftUtilisateur = ({ utilisateur }) => {
               <span className="text-sm text-gray-500">publications</span>
             </div>
             <div className="flex flex-col items-center">
-              <span className="text-xl font-bold">130</span>
+              <span className="text-xl font-bold">{followers?.length}</span>
               <span className="text-sm text-gray-500">followers</span>
             </div>
             <div className="flex flex-col items-center">
-              <span className="text-xl font-bold">160</span>
+              <span className="text-xl font-bold">{following?.length}</span>
               <span className="text-sm text-gray-500">suivi(e)s</span>
             </div>
           </div>
-          
+
           {/* biographie */}
           <div className={`${width < 290 ? "hidden" : "flex"}`}>
             <p className="font-semibold text-gray-600">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint in,
-              sapiente culpa nam nihil velit sit delectus aut dicta tempora id
-              ex architecto facere aspernatur, optio vel, quas excepturi
-              accusantium?
+              {utilisateur?.biographie}
             </p>
           </div>
-          
+
           {/* bouton pour editer profil */}
           <div className="w-full flex">
-            <Button className="w-full bg-cyan-500">Edit Profil</Button>
+            {user?.pseudo === utilisateur?.pseudo ? (
+              <Link href={"/parametre"} className="w-full">
+                <Button className="w-full bg-cyan-500 hover:bg-cyan-800">
+                  Edit Profil
+                </Button>
+              </Link>
+            ) : (
+              <Button className="w-full bg-cyan-500 hover:bg-cyan-800">
+                Suivre
+              </Button>
+            )}
           </div>
         </div>
       </SimpleBar>

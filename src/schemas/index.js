@@ -2,9 +2,14 @@ import { z } from "zod";
 
 // le schema pour se connecter
 export const LoginFormSchema = z.object({
-  email: z.string().min(6, {
-    message: "Le courriel doit comporter au moins 6 caractères.",
-  }),
+  email: z
+    .string()
+    .email({
+      message: "Veuillez entrer une adresse email valide.",
+    })
+    .min(6, {
+      message: "Le courriel doit comporter au moins 6 caractères.",
+    }),
   password: z.string().min(6, {
     message: "le mot de passe doit comporter au moins 6 caractères.",
   }),
@@ -18,12 +23,23 @@ export const SignUpFormSchema = z.object({
   prenom: z.string().min(3, {
     message: "le prenom doit comporter au moins 3 caractères.",
   }),
-  pseudo: z.string().min(3, {
-    message: "le pseudo doit comporter au moins 3 caractères.",
-  }),
-  email: z.string().min(6, {
-    message: "l'email doit comporter au moins 6 caractères.",
-  }),
+  pseudo: z
+    .string()
+    .regex(/^[a-zA-Z0-9]+$/, {
+      message:
+        "Le nom d’utilisateur doit ne doit pas contenir d'espaces, de symboles ou de caractères accentués.",
+    })
+    .min(3, {
+      message: "le pseudo doit comporter au moins 3 caractères.",
+    }),
+  email: z
+    .string()
+    .email({
+      message: "Veuillez entrer une adresse email valide.",
+    })
+    .min(6, {
+      message: "l'email doit comporter au moins 6 caractères.",
+    }),
   password: z.string().min(6, {
     message: "le mot de passe doit comporter au moins 6 caractères.",
   }),
