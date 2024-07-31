@@ -17,6 +17,7 @@ import Image from "next/image";
 import { Button } from "../ui/button";
 import { createClient } from "@/utils/supabase/client";
 import { useUser } from "@/lib/stores/user";
+import { Loader2 } from "lucide-react";
 
 const ImageUploaderProfil = () => {
   const supabase = createClient();
@@ -79,7 +80,6 @@ const ImageUploaderProfil = () => {
       // uploadImage(croppedImage);
     } catch (e) {
       setOpen(false);
-      toast("Le type de l'image");
       console.error(e);
     }
   }, [image, croppedArea]);
@@ -133,7 +133,7 @@ const ImageUploaderProfil = () => {
       }
       setImage(null)
       setErrorMessage("");
-      alert("Image uploadée avec succès !");
+      toast("Image mise à jour avec succès !")
     } catch (error) {
       console.error("Error uploading image:", error.message);
       setErrorMessage("Erreur lors de l'upload de l'image.");
@@ -170,7 +170,7 @@ const ImageUploaderProfil = () => {
             className="absolute bottom-0 px-6 bg-cyan-500 hover:bg-cyan-800"
             disabled={uploading}
           >
-            {uploading ? "Uploading..." : "Upload Image"}
+            {uploading &&  <Loader2 className="mr-2 h-4 w-4 animate-spin" />} sauvegarder
           </Button>
         </div>
       ) : (

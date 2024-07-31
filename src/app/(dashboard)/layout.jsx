@@ -12,7 +12,7 @@ const layout = async ({ children }) => {
   // reccuperer un utilisateur par son ID via supabase
   const { data: user } = await supabase
     .from("users")
-    .select("id, nom, prenom, pseudo, photo_url")
+    .select("id, nom, prenom, pseudo, bio, photo_url")
     .eq("id", data?.user?.id);
 
   return (

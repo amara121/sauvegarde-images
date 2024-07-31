@@ -143,7 +143,7 @@ const PanelLeftUtilisateur = ({ utilisateur }) => {
           {/* biographie */}
           <div className={`${width < 290 ? "hidden" : "flex"}`}>
             <p className="font-semibold text-gray-600">
-              {utilisateur?.biographie}
+              {utilisateur?.bio}
             </p>
           </div>
 

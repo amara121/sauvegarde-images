@@ -2,8 +2,10 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import debounce from "lodash/debounce";
+import throttle from "lodash/throttle";
 import { z } from "zod";
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import ImageUploaderProfil from "./ImageUploaderProfil";
 import SimpleBar from "simplebar-react";
 import { useUser } from "@/lib/stores/user";
@@ -20,6 +22,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { toast } from "sonner";
+import { createClient } from "@/utils/supabase/client";
+import { Loader2 } from "lucide-react";
 
 const formSchema = z.object({
   nom: z.string().min(3, {
@@ -37,13 +42,15 @@ const formSchema = z.object({
     .min(3, {
       message: "Le nom d’utilisateur doit comporter au moins 3 caractères.",
     }),
-  bio: z.string().max(50, {
+  bio: z.string().max(60, {
     message: "Bio ne doit pas depassé 50 caractères.",
   }),
 });
 
 const ParametreProfil = () => {
-  const { user } = useUser();
+  const supabase = createClient();
+  const { user, updateUser } = useUser();
+  const [loading, setLoading] = useState(false);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -55,8 +62,73 @@ const ParametreProfil = () => {
     },
   });
 
-  function onSubmit(values) {
+  useEffect(() => {
+    // Pré-remplir le formulaire avec les données utilisateur de Zustand
+    form.setValue("nom", user?.nom);
+    form.setValue("prenom", user?.prenom);
+    form.setValue("pseudo", user?.pseudo);
+    form.setValue("bio", user?.bio);
+    console.log(user?.bio);
+  }, [user, form.setValue]);
+
+  const checkUsernameExists = useCallback(
+    throttle(
+      debounce(async (pseudo) => {
+        const { data, error } = await supabase
+          .from("users")
+          .select("pseudo")
+          .eq("pseudo", pseudo)
+          .neq("id", user?.id); // Exclure l'utilisateur actuel de la vérification
+
+        if (data.length > 0) {
+          setError("pseudo", {
+            type: "manual",
+            message: "Le pseudo est déjà pris.",
+          });
+        } else {
+          clearErrors("pseudo");
+        }
+      }, 300),
+      1000
+    ),
+    [user?.id]
+  );
+
+  useEffect(() => {
+    return () => {
+      checkUsernameExists.cancel();
+    };
+  }, [checkUsernameExists]);
+
+  async function onSubmit(values) {
     console.log(values);
+    setLoading(true);
+
+    const { error } = await supabase
+      .from("users")
+      .update({
+        nom: values.nom,
+        prenom: values.prenom,
+        pseudo: values.pseudo,
+        bio: values.bio,
+      })
+      .eq("id", user?.id);
+
+    if (error) {
+      console.error(error);
+      setLoading(false)
+    } else {
+      setLoading(false);
+      // Mettre à jour les informations utilisateur dans Zustand
+      updateUser({
+        nom: values.nom,
+        prenom: values.prenom,
+        pseudo: values.pseudo,
+        bio: values.bio,
+      });
+      // alert("Informations mises à jour avec succès !");
+      toast("Informations mises à jour avec succès !");
+    }
   }
 
   return (
@@ -110,7 +182,13 @@ const ParametreProfil = () => {
                 <FormItem>
                   <FormLabel>Nom d'utilisateur</FormLabel>
                   <FormControl>
-                    <Input placeholder="Ex: amarafofana121" {...field} />
+                    <Input
+                      {...form.register("username", {
+                        onChange: (e) => checkUsernameExists(e.target.value),
+                      })}
+                      placeholder="Ex: amarafofana121"
+                      {...field}
+                    />
                   </FormControl>
                   <FormDescription className="text-xs">
                     Il est facile de t'identifier avec ton nom d'utilisateur.
@@ -141,7 +219,14 @@ const ParametreProfil = () => {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="bg-cyan-500 hover:bg-cyan-800">Modifier</Button>
+            <Button
+              type="submit"
+              className="bg-cyan-500 hover:bg-cyan-800"
+              disabled={loading}
+            >
+              {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}{" "}
+              Modifier
+            </Button>
           </form>
         </Form>
       </div>

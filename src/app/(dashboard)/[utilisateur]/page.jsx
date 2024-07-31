@@ -13,7 +13,7 @@ const Utilisateur = async ({ params }) => {
 
   const { data: utilisateur } = await supabase
     .from("users")
-    .select("id, nom, prenom, pseudo, photo_url")
+    .select("id, nom, prenom, pseudo, bio, photo_url")
     .eq("pseudo", params?.utilisateur);
 
   if (!utilisateur[0]) {
