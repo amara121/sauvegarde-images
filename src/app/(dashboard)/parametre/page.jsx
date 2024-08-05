@@ -1,6 +1,7 @@
 import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ParametreProfil from "@/components/parametre-component/ParametreProfil";
+import ParametrePassword from "@/components/parametre-component/ParametrePassword";
 
 const Parametre = () => {
   return (
@@ -60,7 +61,7 @@ const Parametre = () => {
             <ParametreProfil />
           </TabsContent>
           <TabsContent value="password">
-            {/* <MesPhotosPriver /> */}
+            <ParametrePassword />
           </TabsContent>
         </Tabs>
       </div>
