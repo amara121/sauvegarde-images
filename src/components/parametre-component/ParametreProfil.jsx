@@ -51,6 +51,8 @@ const ParametreProfil = () => {
   const supabase = createClient();
   const { user, updateUser } = useUser();
   const [loading, setLoading] = useState(false);
+  const [errorPseudo, setErrorPseudo] = useState(false);
+
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -81,12 +83,14 @@ const ParametreProfil = () => {
           .neq("id", user?.id); // Exclure l'utilisateur actuel de la vérification
 
         if (data.length > 0) {
-          setError("pseudo", {
+          form.setError("pseudo", {
             type: "manual",
             message: "Le pseudo est déjà pris.",
           });
+          setErrorPseudo(true)
         } else {
-          clearErrors("pseudo");
+          setErrorPseudo(false)
+          form.clearErrors("pseudo");
         }
       }, 300),
       1000
@@ -183,7 +187,7 @@ const ParametreProfil = () => {
                   <FormLabel>Nom d'utilisateur</FormLabel>
                   <FormControl>
                     <Input
-                      {...form.register("username", {
+                      {...form.register("pseudo", {
                         onChange: (e) => checkUsernameExists(e.target.value),
                       })}
                       placeholder="Ex: amarafofana121"
@@ -222,7 +226,7 @@ const ParametreProfil = () => {
             <Button
               type="submit"
               className="bg-cyan-500 hover:bg-cyan-800"
-              disabled={loading}
+              disabled={loading || errorPseudo}
             >
               {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}{" "}
               Modifier

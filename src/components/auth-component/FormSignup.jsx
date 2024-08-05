@@ -24,6 +24,7 @@ import { SignUpFormSchema } from "@/schemas";
 import { useAction } from "next-safe-action/hooks";
 import { Loader2 } from "lucide-react";
 import { useToast } from "../ui/use-toast";
+import { verifierPseudo } from "@/lib/utils";
 
 export function FormSignup() {
   const supabase = createClient();
@@ -118,9 +119,8 @@ export function FormSignup() {
     };
   }, [checkUsernameExists]);
 
-  function onSubmit(values) {
+  async function onSubmit(values) {
     execute(values);
-    console.log(values);
   }
 
   return (
@@ -166,7 +166,7 @@ export function FormSignup() {
               <FormLabel className="font-bold">Pseudo</FormLabel>
               <FormControl>
                 <Input
-                  {...form.register('pseudo', {
+                  {...form.register("pseudo", {
                     onChange: (e) => checkUsernameExists(e.target.value),
                   })}
                   placeholder="Ex: amarafofana121"
@@ -244,7 +244,11 @@ export function FormSignup() {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full bg-blue-500 hover:bg-blue-800" disabled={errorPseudo}>
+        <Button
+          type="submit"
+          className="w-full bg-blue-500 hover:bg-blue-800"
+          disabled={errorPseudo}
+        >
           {status === "executing" && (
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
           )}
