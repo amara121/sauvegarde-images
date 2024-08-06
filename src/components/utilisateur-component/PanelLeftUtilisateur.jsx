@@ -6,13 +6,29 @@ import SimpleBar from "simplebar-react";
 import { Button } from "../ui/button";
 import { useUser } from "@/lib/stores/user";
 import { createClient } from "@/utils/supabase/client";
-import { getFollowers, getFollowing } from "@/lib/utils";
+import {
+  followUser,
+  getFollowers,
+  getFollowing,
+  unfollowUser,
+} from "@/lib/utils";
 import Link from "next/link";
+import { useFollowers } from "@/lib/stores/useFollowers";
 
 const PanelLeftUtilisateur = ({ utilisateur }) => {
-  const [followers, setFollowers] = useState([]);
-  const [following, setFollowing] = useState([]);
+  const supabase = createClient();
+  // const [followers, setFollowers] = useState([]);
+  // const [following, setFollowing] = useState([]);
+  const {
+    followers,
+    following: userFollowing,
+    setFollowing: setUserFollowing,
+    setUserProfile,
+    userProfile,
+  } = useFollowers();
+  const [followStatus, setFollowStatus] = useState({});
   const { user } = useUser();
+  const userId = supabase.auth.getUser()
   const [width, setWidth] = useState(0);
   const divRef = useRef(null);
 
@@ -35,20 +51,63 @@ const PanelLeftUtilisateur = ({ utilisateur }) => {
     };
   }, []);
 
-  // la fonction pour get les followers
   useEffect(() => {
-    async function fetchRelations() {
-      const followersData = await getFollowers(utilisateur?.id);
-      const followingData = await getFollowing(utilisateur?.id);
-      setFollowers(followersData);
-      setFollowing(followingData);
+    if (utilisateur?.id) {
+      const fetchFollowers = async () => {
+        let { data, error } = await supabase
+          .from("follows")
+          .select("follower_id")
+          .eq("following_id", utilisateur?.id)
+          .order("created_at", { ascending: false });
+        if (error) console.error(error);
+        // else setFollowers(data.map((f) => f.following_id));
+      };
+
+      const fetchFollowing = async () => {
+        let { data, error } = await supabase
+          .from("follows")
+          .select("following_id")
+          .eq("follower_id", utilisateur?.id)
+          .order("created_at", { ascending: false });
+        if (error) console.error(error);
+        // else setFollowing(data.map((f) => f.following_id));
+      };
+
+      const fetchUserFollowing = async () => {
+        let { data, error } = await supabase
+          .from("follows")
+          .select("following_id")
+          .eq("follower_id", (await userId).data.user.id);
+        if (error) console.error(error);
+        else setUserFollowing(data.map((f) => f.following_id));
+      };
+
+      fetchFollowers();
+      fetchFollowing();
+      fetchUserFollowing();
     }
+  }, [utilisateur?.id, user?.id]);
 
-    fetchRelations();
+  const handleFollow = async () => {
+    const { data, error } = await supabase
+      .from('follows')
+      .insert([{ follower_id: user?.id, following_id: utilisateur?.id }]);
+    if (error) console.error(error);
+    else {
+      setUserFollowing([...userFollowing, utilisateur?.id]);
+    }
+  };
 
-    console.log("followers: ", followers);
-    console.log("following: ", following);
-  }, [utilisateur]);
+  const handleUnfollow = async () => {
+    const { data, error } = await supabase
+      .from('follows')
+      .delete()
+      .match({ follower_id: user?.id, following_id: utilisateur?.id });
+    if (error) console.error(error);
+    else {
+      setUserFollowing(userFollowing.filter(followingId => followingId !== utilisateur?.id));
+    }
+  };
 
   return (
     <div ref={divRef} className="w-full flex">
@@ -131,20 +190,18 @@ const PanelLeftUtilisateur = ({ utilisateur }) => {
               <span className="text-sm text-gray-500">publications</span>
             </div>
             <div className="flex flex-col items-center">
-              <span className="text-xl font-bold">{followers?.length}</span>
+              <span className="text-xl font-bold">130</span>
               <span className="text-sm text-gray-500">followers</span>
             </div>
             <div className="flex flex-col items-center">
-              <span className="text-xl font-bold">{following?.length}</span>
+              <span className="text-xl font-bold">160</span>
               <span className="text-sm text-gray-500">suivi(e)s</span>
             </div>
           </div>
 
           {/* biographie */}
           <div className={`${width < 290 ? "hidden" : "flex"}`}>
-            <p className="font-semibold text-gray-600">
-              {utilisateur?.bio}
-            </p>
+            <p className="font-semibold text-gray-600">{utilisateur?.bio}</p>
           </div>
 
           {/* bouton pour editer profil */}
@@ -155,8 +212,18 @@ const PanelLeftUtilisateur = ({ utilisateur }) => {
                   Edit Profil
                 </Button>
               </Link>
+            ) : userFollowing.includes(utilisateur?.id) ? (
+              <Button
+                // onClick={handleUnfollow}
+                className="w-full bg-cyan-500 hover:bg-cyan-800"
+              >
+                Unfollow
+              </Button>
             ) : (
-              <Button className="w-full bg-cyan-500 hover:bg-cyan-800">
+              <Button
+                // onClick={handleFollow}
+                className="w-full bg-cyan-500 hover:bg-cyan-800"
+              >
                 Suivre
               </Button>
             )}

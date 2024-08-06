@@ -31,18 +31,22 @@ export async function getFollowers(userId) {
     return [];
   }
 
-  const followerIds = data.map((row) => row.follower_id);
-  const { data: followers, error: followersError } = await supabase
-    .from("users")
-    .select("*")
-    .in("id", followerIds);
+  return data;
 
-  if (followersError) {
-    console.error(followersError);
-    return [];
-  }
+  // cette partie sera recevoir l'afficharge des follower
 
-  return followers;
+  // const followerIds = data.map((row) => row.follower_id);
+  // const { data: followers, error: followersError } = await supabase
+  //   .from("users")
+  //   .select("*")
+  //   .in("id", followerIds);
+
+  // if (followersError) {
+  //   console.error(followersError);
+  //   return [];
+  // }
+
+  // return followers;
 }
 
 // ====================== Following ==========================
@@ -57,18 +61,22 @@ export async function getFollowing(userId) {
     return [];
   }
 
-  const followingIds = data.map((row) => row.following_id);
-  const { data: following, error: followingError } = await supabase
-    .from("users")
-    .select("*")
-    .in("id", followingIds);
+  return data;
 
-  if (followingError) {
-    console.error(followingError);
-    return [];
-  }
+  // cette partie sera recevoir l'afficharge des following
 
-  return following;
+  // const followingIds = data.map((row) => row.following_id);
+  // const { data: following, error: followingError } = await supabase
+  //   .from("users")
+  //   .select("*")
+  //   .in("id", followingIds);
+
+  // if (followingError) {
+  //   console.error(followingError);
+  //   return [];
+  // }
+
+  // return following;
 }
 
 // ===================== fonctionnalité suivre (follow) ========================
