@@ -31,7 +31,7 @@ const UtilisateurPanelFavorie = () => {
       <div
         className={`w-full grid ${
           width > 716 ? "grid-cols-3" : "grid-cols-1 sm:grid-cols-2"
-        } gap-3`}
+        } gap-3 pb-24 md:pb-3`}
       >
         {[1, 2, 3, 4, 5].map((_, i) => (
           <div

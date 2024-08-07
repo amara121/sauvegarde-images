@@ -1,11 +1,12 @@
 "use client";
 
+import { toast } from "sonner";
 import { useState, useReducer } from "react";
 import { useDropzone } from "react-dropzone";
-// import { supabase } from '../utils/supabaseClient';
 import Image from "next/image";
 import { createClient } from "@/utils/supabase/client";
 import { useUser } from "@/lib/stores/user";
+import { useRouter } from "next/navigation";
 
 const imageReducer = (state, action) => {
   switch (action.type) {
@@ -36,7 +37,7 @@ const ImageUpload = () => {
   const [images, dispatch] = useReducer(imageReducer, []);
   const [uploadProgress, setUploadProgress] = useState([]);
   const [isDragging, setIsDragging] = useState(false);
-  const [checked, setChecked] = useState(false);
+  const router = useRouter();
   const [error, setError] = useState("");
 
   const onDrop = (acceptedFiles) => {
@@ -68,17 +69,16 @@ const ImageUpload = () => {
     images.forEach(async (image, index) => {
       const file = new File(
         [image.file],
-        `image_picturamar_${Date.now()}.${image.file.name.split('.').pop()}`,
+        `image_picturamar_${Date.now()}.${image.file.name.split(".").pop()}`,
         {
           type: image.file.type,
         }
       );
 
       console.log(images);
-      
 
       const { data: imageData, error } = await supabase.storage
-        .from("images_priver")
+        .from("images_public")
         .upload(`${user?.pseudo}/${file.name}`, file, {
           onUploadProgress: (progressEvent) => {
             const progress = Math.round(
@@ -92,16 +92,11 @@ const ImageUpload = () => {
       if (error) {
         setError("Erreur lors du téléchargement de l'image");
       } else {
-        // const imageUrl = `${
-        //   supabase.storage.from("images").getPublicUrl(`public/${file.name}`)
-        //     .publicURL
-        // }`;
-
         const imageUrl = supabase.storage
-          .from("images_priver")
+          .from("images_public")
           .getPublicUrl(imageData.path).data.publicUrl;
 
-        const { data, error } = await supabase.from("images").insert([
+        const { error } = await supabase.from("images").insert([
           {
             priver: image.isPublic ? true : false,
             nom: file.name,
@@ -115,9 +110,12 @@ const ImageUpload = () => {
             "Erreur lors de l'enregistrement de l'image dans la base de données"
           );
         } else {
-          alert("Image téléchargée et enregistrée avec succès !");
           dispatch({ type: "REMOVE_IMAGE", payload: index });
           setUploadProgress(newUploadProgress.filter((_, i) => i !== index));
+          toast("Image Téléverser", {
+            description: "Image téléchargée et enregistrée avec succès !",
+          });
+          router.push("/mes-photos");
         }
       }
     });

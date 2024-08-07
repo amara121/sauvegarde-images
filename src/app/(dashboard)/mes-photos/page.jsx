@@ -1,7 +1,7 @@
 import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import MesPhotosPublics from "@/components/mes-photos-component/MesPhotosPublics";
 import MesPhotosPriver from "@/components/mes-photos-component/MesPhotosPriver";
+import ContentPhotoPublic from "@/components/mes-photos-component/ContentPhotoPublic";
 
 const MesPhotos = () => {
   return (
@@ -59,7 +59,7 @@ const MesPhotos = () => {
             </TabsList>
           </div>
           <TabsContent value="image-public">
-            <MesPhotosPublics />
+            <ContentPhotoPublic />
           </TabsContent>
           <TabsContent value="image-prive">
             <MesPhotosPriver />
