@@ -41,7 +41,7 @@ const MesPhotosPublics = ({ utilisateur = null }) => {
       setMesPhotos(data);
       console.log(data);
     };
-  }, []);
+  }, [utilisateur]);
 
   return (
     <>
