@@ -5,16 +5,17 @@ import { Button } from "../ui/button";
 import Image from "next/image";
 import SimpleBar from "simplebar-react";
 import Link from "next/link";
+import { trimChaineCaractere } from "@/lib/utils";
 
-const SugessionAmisMobile = () => {
+const SugessionAmisMobile = ({ users }) => {
   return (
     <SimpleBar className="w-full h-[135px] pt-2 px-2 rounded-md">
       <div className="flex space-x-2 h-full">
         {/* un composant de sugession d'amis */}
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((_, i) => (
+        {users?.map((user, i) => (
           <div key={i} className="flex relative justify-center">
             <Link
-              href={"/amara121"}
+              href={`/${user?.pseudo}`}
               className="flex flex-col items-center gap-1 w-[120px] bg-gray-100 p-2 rounded-md"
             >
               <div
@@ -22,15 +23,15 @@ const SugessionAmisMobile = () => {
               >
                 <Image
                   priority={true}
-                  src={"/images/default-avatar.png"}
+                  src={user?.photo_url}
                   alt="default avatar"
                   width={50}
                   height={50}
                   className={`min-w-[60px] w-[60px] h-[60px] object-cover  rounded-full transition-transform duration-200 ease-in border-2 border-white`}
                 />
               </div>
-              <div className="flex">
-                <span className="font-bold text-nowrap">Amara Fofana</span>
+              <div className="flex overflow-hidden">
+                <span className="font-bold text-nowrap text-xs">{trimChaineCaractere(`${user?.prenom} ${user?.nom}`, 17)}</span>
               </div>
             </Link>
 

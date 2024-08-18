@@ -6,7 +6,8 @@ import ExplorerImages from "./ExplorerImages";
 import SimpleBar from "simplebar-react";
 import { Card } from "../ui/card";
 
-const PanelLeft = () => {
+const PanelLeft = ({ users }) => {
+
   return (
     <SimpleBar className="w-full h-[calc(100vh_-_80px)] flex">
       <div className="w-full h-full flex flex-col text-gray-500 p-2 gap-6">
@@ -20,7 +21,7 @@ const PanelLeft = () => {
         <div className="w-full flex lg:hidden flex-col text-gray-500">
           <span className="text-xl font-bold px-2">Sugession d'amis</span>
 
-          <SugessionAmisMobile />
+          <SugessionAmisMobile users={users} />
         </div>
 
         <div className="w-full flex flex-col mb-20 md:mb-0 pb-3 gap-2">

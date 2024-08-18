@@ -6,6 +6,38 @@ export function cn(...inputs) {
   return twMerge(clsx(inputs));
 }
 
+// pour trimer les valeurs des chaines de caractere
+export function trimChaineCaractere(str, maxLength) {
+  if (str.length <= maxLength) {
+    return str;
+  }
+  return str.slice(0, maxLength - 3) + "...";
+}
+
+export function trimStringToFitContainer(text, containerWidth, font = '16px Inter') {
+  // Créer un canvas temporaire pour mesurer le texte
+  const canvas = document.createElement('canvas');
+  const context = canvas.getContext('2d');
+  context.font = font;
+  
+
+  const ellipsis = '...';
+  let trimmedText = '';
+  let ellipsisWidth = context.measureText(ellipsis).width;
+  
+  for (let i = 0; i < text.length; i++) {
+    let tempText = trimmedText + text[i];
+    let textWidth = context.measureText(tempText).width;
+    
+    if (textWidth + ellipsisWidth > containerWidth) {
+      return trimmedText + ellipsis;
+    }
+    trimmedText = tempText;
+  }
+
+  return text;
+}
+
 const supabase = createClient();
 
 // ======= Vérifier les pseudos pour ne pas avoir des doublons ==============

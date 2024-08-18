@@ -59,7 +59,9 @@ const PanelRightUtilisateur = ({ utilisateur }) => {
                   <span>{utilisateur?.prenom}</span>
                   <span>{utilisateur?.nom}</span>
                 </div>
-                <span className="font-bold text-xs">@{utilisateur?.pseudo}</span>
+                <span className="font-bold text-xs">
+                  @{utilisateur?.pseudo}
+                </span>
               </div>
 
               <div className={`w-full grid grid-cols-3`}>
@@ -84,7 +86,7 @@ const PanelRightUtilisateur = ({ utilisateur }) => {
           </div>
 
           <div className="w-full max-w-sm flex">
-          {user?.pseudo === utilisateur?.pseudo ? (
+            {user?.pseudo === utilisateur?.pseudo ? (
               <Link href={"/parametre"} className="w-full">
                 <Button className="w-full bg-cyan-500 hover:bg-cyan-800">
                   Edit Profil
@@ -119,73 +121,91 @@ const PanelRightUtilisateur = ({ utilisateur }) => {
               </svg>
               <span className="">Images</span>
             </TabsTrigger>
-            <TabsTrigger
-              value="image-prive"
-              className="w-full gap-1 sm:gap-2 px-0"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="size-4"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"
-                />
-              </svg>
-              <span className="">Images</span>
-            </TabsTrigger>
-            <TabsTrigger value="aimer" className="w-full gap-1 sm:gap-2 px-0">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="size-4"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
-                />
-              </svg>
-              <span className="">A aimé</span>
-            </TabsTrigger>
-            <TabsTrigger value="favorie" className="w-full gap-1 sm:gap-2 px-0">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="size-4"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z"
-                />
-              </svg>
-              <span className="">Favories</span>
-            </TabsTrigger>
+            {user?.pseudo === utilisateur?.pseudo && (
+              <>
+                <TabsTrigger
+                  value="image-prive"
+                  className="w-full gap-1 sm:gap-2 px-0"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="size-4"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"
+                    />
+                  </svg>
+                  <span className="">Images</span>
+                </TabsTrigger>
+
+                <TabsTrigger
+                  value="aimer"
+                  className="w-full gap-1 sm:gap-2 px-0"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="size-4"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
+                    />
+                  </svg>
+                  <span className="">A aimé</span>
+                </TabsTrigger>
+                
+                <TabsTrigger
+                  value="favorie"
+                  className="w-full gap-1 sm:gap-2 px-0"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="size-4"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z"
+                    />
+                  </svg>
+                  <span className="">Favories</span>
+                </TabsTrigger>
+              </>
+            )}
           </TabsList>
           <TabsContent value="image-public">
-            <UtilisateurPanelPublicImage />
+            <UtilisateurPanelPublicImage utilisateur={utilisateur} />
           </TabsContent>
-          <TabsContent value="image-prive">
-            <UtilisateurPanelPriverImage />
-          </TabsContent>
-          <TabsContent value="aimer">
-            <UtilisateurPanelAimerImage />
-          </TabsContent>
-          <TabsContent value="favorie">
-            <UtilisateurPanelFavorie />
-          </TabsContent>
+          {user?.pseudo === utilisateur?.pseudo && (
+            <>
+              <TabsContent value="image-prive">
+                <UtilisateurPanelPriverImage />
+              </TabsContent>
+
+              <TabsContent value="aimer">
+                <UtilisateurPanelAimerImage />
+              </TabsContent>
+
+              <TabsContent value="favorie">
+                <UtilisateurPanelFavorie />
+              </TabsContent>
+            </>
+          )}
         </Tabs>
       </div>
     </SimpleBar>

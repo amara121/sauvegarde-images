@@ -6,8 +6,9 @@ import { Button } from "../ui/button";
 import SimpleBar from "simplebar-react";
 import ContentImageSugessionAmisDesktop from "./ContentImageSugessionAmisDesktop";
 import Link from "next/link";
+import { trimChaineCaractere, trimStringToFitContainer } from "@/lib/utils";
 
-const PanelRight = () => {
+const PanelRight = ({ users }) => {
   const [width, setWidth] = useState(0);
   const divRef = useRef(null);
 
@@ -43,7 +44,7 @@ const PanelRight = () => {
 
         <SimpleBar className="flex h-[calc(100vh_-_150px)] px-2 gap-2">
           <div className="flex flex-col space-y-4 h-full">
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((_, i) => (
+            {users?.map((user, i) => (
               <div
                 key={i}
                 className="flex flex-col gap-4 bg-gray-100 px-2 py-4 rounded-md overflow-hidden"
@@ -57,7 +58,7 @@ const PanelRight = () => {
                   {/* photo & nom d'utilisateur */}
                   <div className="flex relative justify-center">
                     <Link
-                      href={"/amara121"}
+                      href={`/${user?.pseudo}`}
                       className={`flex ${
                         width < 270 ? "flex-col" : "flex-row"
                       } items-center gap-2`}
@@ -72,7 +73,7 @@ const PanelRight = () => {
                       >
                         <Image
                           priority={true}
-                          src={"/images/default-avatar.png"}
+                          src={user?.photo_url}
                           alt="default avatar"
                           width={50}
                           height={50}
@@ -85,13 +86,13 @@ const PanelRight = () => {
                       </div>
                       {/* nom d'utilisateur */}
                       <div className="flex flex-col">
-                        <span className="font-bold">Amara Fofana</span>
+                        <span className="font-bold">{trimChaineCaractere(`${user?.prenom} ${user?.nom}`, 13)}</span>
                         <span
                           className={`text-sm ${
                             width < 270 ? "hidden" : "inline"
                           }`}
                         >
-                          @amara121
+                          @{user?.pseudo}
                         </span>
                       </div>
                     </Link>
@@ -130,7 +131,7 @@ const PanelRight = () => {
                 </div>
 
                 {/* content des images */}
-                <ContentImageSugessionAmisDesktop width={width} />
+                <ContentImageSugessionAmisDesktop user={user} width={width} />
               </div>
             ))}
           </div>

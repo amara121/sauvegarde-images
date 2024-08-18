@@ -4,13 +4,30 @@ import { createClient } from "@/utils/supabase/client";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
-const MesPhotosPublics = () => {
+const MesPhotosPublics = ({ utilisateur = null }) => {
   const supabase = createClient();
   const user_id = supabase.auth.getUser();
   const [mesPhotos, setMesPhotos] = useState(null);
 
   useEffect(() => {
-    const fetchPhoto = async () => {
+    if (utilisateur) {
+      return async () => {
+        const { data, error } = await supabase
+          .from("images")
+          .select("id, nom, image_url, user_id, priver")
+          .eq("user_id", utilisateur?.id)
+          .eq("priver", false);
+
+        if (error) {
+          console.error("impossible de charger les images pour le moment");
+        }
+
+        setMesPhotos(data);
+        console.log(data);
+      };
+    }
+
+    return async () => {
       const { data, error } = await supabase
         .from("images")
         .select("id, nom, image_url, user_id, priver")
@@ -24,8 +41,6 @@ const MesPhotosPublics = () => {
       setMesPhotos(data);
       console.log(data);
     };
-
-    fetchPhoto();
   }, []);
 
   return (

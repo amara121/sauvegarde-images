@@ -67,3 +67,48 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* styles/globals.css */
+.image-gallery {
+  width: 100%!important;
+  height: 100vh!important;
+}
+
+.image-gallery-content {
+  position: relative;
+  width: 100%!important;
+  height: 100vh!important;
+}
+
+.image-gallery-swipe {
+  width: 100%!important;
+}
+
+.image-gallery-slides {
+  display: flex;
+  justify-content: center!important;
+  width: 100%!important;
+}
+
+.image-gallery-slide {
+  display: flex;
+  justify-content: center!important;
+  width: 100%!important;
+}
+
+.image-gallery-image {
+  width: 100%!important; /* Largeur personnalisée */
+  max-height: 70vh!important;
+  height: 100%;
+  object-fit: contain!important;
+}
+
+/* .image-gallery-thumbnails-wrapper {
+
+} */
+
+.image-gallery-thumbnail-image {
+  width: 350px!important; /* Largeur personnalisée */
+  height: 100px!important;
+  object-fit: cover!important; /* Hauteur personnalisée */
+}
